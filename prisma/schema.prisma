@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Club {
+  id                 Int    @id @default(autoincrement())
+  nombre_club        String
+  direccion          String
+  nombre_presidente  String
+  id_presidente      Int @unique
+  telefono_presidente String
+  correo_institucional String @unique
+  password          String  // Nuevo campo para la contraseña
+  deportistas        Deportista[]
+}
+
+model Deportista {
+  id                   Int     @id @default(autoincrement())
+  nombre               String
+  apellidos           String
+  tipo_identificacion String
+  numero_identificacion Int @unique
+  grado_cinturon      String
+  genero              String
+  fecha_nacimiento    DateTime
+  lugar_nacimiento    String
+  rh                 String
+  eps                String
+  direccion          String
+  municipio          String
+  barrio            String
+  estrato            Int
+  numero_celular     String
+  correo_electronico String
+  discapacidad       String?  // Opcional
+  tipo_formacion     String
+  profesion          String?
+  ocupacion          String?
+  fecha_ultimo_examen DateTime?
+  competidor         Boolean
+  modalidad_competencia String?
+  rol_club           String
+  id_club            Int
+  club               Club   @relation(fields: [id_club], references: [id], onDelete: Cascade)
+}
+
+model Admin {
+  id          Int    @id @default(autoincrement())
+  nombre_admin String
+  correo_admin String @unique
+  password     String
+}
