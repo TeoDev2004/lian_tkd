@@ -1,6 +1,13 @@
 import Image from "next/image";
 
-function FormLogin({ error, errors, onSubmit, register }) {
+function FormLogin({
+  error,
+  errors,
+  onSubmit,
+  register,
+  colorPage,
+  colorHover,
+}) {
   return (
     <div>
       <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
@@ -10,7 +17,7 @@ function FormLogin({ error, errors, onSubmit, register }) {
           width={200}
           height={200}
           quality={100}
-          className="absolute top-28"
+          className="absolute hidden md:block md:top-8 md:mb-2 2xl:top-20"
         />
         <form onSubmit={onSubmit} className="w-1/4">
           {error && (
@@ -31,7 +38,7 @@ function FormLogin({ error, errors, onSubmit, register }) {
                 message: "El usuario es requerido",
               },
             })}
-            className="p-3 rounded block mb-2 bg-[#00A860] text-slate-100 w-full"
+            className={`p-3 rounded block mb-2 ${colorPage} text-slate-100 w-full`}
           />
           {errors.email && (
             <span className="text-red-500">{errors.email.message}</span>
@@ -52,13 +59,15 @@ function FormLogin({ error, errors, onSubmit, register }) {
                 message: "La contraseña es requerida",
               },
             })}
-            className="p-3 rounded block mb-5 bg-[#00A860] text-slate-100 w-full"
+            className={`p-3 rounded block mb-2 ${colorPage} text-slate-100 w-full`}
           />
           {errors.password && (
             <span className="text-red-500">{errors.password.message}</span>
           )}
 
-          <button className="w-full bg-[#00843D] hover:bg-[#008F54] hover:cursor-pointer text-white p-3 rounded-lg mt-2">
+          <button
+            className={`w-full ${colorPage} ${colorHover} hover:cursor-pointer text-white p-3 rounded-lg mt-2`}
+          >
             Ingresar
           </button>
         </form>

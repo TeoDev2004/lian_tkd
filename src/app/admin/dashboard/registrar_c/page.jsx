@@ -81,7 +81,7 @@ function RegistrarClub() {
         }}
       ></div>
       <form
-        className="bg-[#313131] p-10 lg:w-1/4 md:w-1/2 rounded-2xl"
+        className="bg-[#313131] p-10 2xl:w-1/4 md:w-1/2 rounded-2xl"
         onSubmit={onSubmit}
       >
         <h1 className="flex items-center mb-8 text-2xl font-bold text-white">

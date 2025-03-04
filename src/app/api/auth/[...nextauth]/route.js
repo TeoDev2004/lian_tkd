@@ -32,7 +32,7 @@ export const authOptions = {
           };
         } else if (credentials.loginType === "club") {
           // Lógica para login de clubes
-          const club = await db.Club.findFirst({
+          const club = await db.Club.findUnique({
             where: { correo_institucional: credentials.email },
           });
           if (!club) throw new Error("Usuario no encontrado");

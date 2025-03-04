@@ -36,6 +36,8 @@ function ClubLogin() {
       errors={errors}
       onSubmit={onSubmit}
       register={register}
+      colorPage={"bg-[#00843D]"}
+      colorHover={"hover:bg-[#008F54]"}
     />
   );
 }

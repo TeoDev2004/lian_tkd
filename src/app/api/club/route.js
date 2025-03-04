@@ -19,7 +19,7 @@ export async function POST(req) {
   } = await req.json();
 
   // Verificar si el correo electrónico ya existe en la base de datos
-  const existingClub = await prisma.club.findFirst({
+  const existingClub = await prisma.club.findUnique({
     where: {
       correo_institucional, // Buscar por correo electrónico
     },

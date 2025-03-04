@@ -5,24 +5,23 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 async function Navbar() {
   const session = await getServerSession(authOptions);
-
-  // Aquí colocas el console.log para verificar el contenido de la sesión
   console.log("Sesión actual:", session);
 
   const isAdmin = session?.user?.role === "admin";
   const isClub = session?.user?.role === "club";
 
   return (
-    <div>
-      <nav className="bg-[#313131] fixed top-0 left-0 right-0 z-50 mb-0 flex justify-between text-2xl text-white font-bold px-20 p-3">
-        <Link href={"/"}>
-          <h3 className="flex items-center gap-4">
-            <GiHighKick className="text-3xl mr-2" />
-            Liga Antioqueña de Taekwondo
-          </h3>
+    <nav className="bg-[#313131] fixed top-0 left-0 right-0 z-50 text-white font-bold p-3 md:px-20">
+      {/* Contenedor general */}
+      <div className="flex md:flex-row flex-col items-center md:justify-between">
+        {/* Logo */}
+        <Link href={"/"} className="flex items-center gap-2">
+          <GiHighKick className="text-3xl" />
+          <h3 className="text-lg md:text-2xl">Liga Antioqueña de Taekwondo</h3>
         </Link>
 
-        <ul className="text-2xl gap-10 flex items-center">
+        {/* Menú */}
+        <ul className="flex flex-col md:flex-row text-xl gap-3 md:gap-10 mt-3 md:mt-0 items-center">
           {!session?.user ? (
             <>
               <li>
@@ -53,8 +52,8 @@ async function Navbar() {
             </>
           )}
         </ul>
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
 }
 

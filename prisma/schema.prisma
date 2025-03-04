@@ -30,7 +30,7 @@ model Deportista {
   nombre               String
   apellidos           String
   tipo_identificacion String
-  numero_identificacion Int @unique
+  numero_identificacion String @unique
   grado_cinturon      String
   genero              String
   fecha_nacimiento    DateTime
@@ -53,6 +53,8 @@ model Deportista {
   rol_club           String
   id_club            Int
   club               Club   @relation(fields: [id_club], references: [id], onDelete: Cascade)
+  seleccion_combate   SeleccionCombate[]
+  seleccion_poomsae   SeleccionPoomsae[]
 }
 
 model Admin {
@@ -60,4 +62,18 @@ model Admin {
   nombre_admin String
   correo_admin String @unique
   password     String
+}
+
+model SeleccionCombate{
+  id          Int    @id @default(autoincrement())
+  mayor_logro String
+  id_deportista String
+  deportista Deportista @relation(fields: [id_deportista], references: [numero_identificacion], onDelete: Cascade)
+}
+
+model SeleccionPoomsae{
+  id          Int    @id @default(autoincrement())
+  mayor_logro String
+  id_deportista String
+  deportista Deportista @relation(fields: [id_deportista], references: [numero_identificacion], onDelete: Cascade)
 }

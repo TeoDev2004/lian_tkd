@@ -36,6 +36,8 @@ function AdminLogin() {
       errors={errors}
       onSubmit={onSubmit}
       register={register}
+      colorPage={"bg-[#2A3D5F]"}
+      colorHover={"hover:bg-[#1A2E4A]"}
     />
   );
 }
