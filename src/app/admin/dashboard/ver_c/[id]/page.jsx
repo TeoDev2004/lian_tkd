@@ -77,7 +77,7 @@ function idClub() {
   };
 
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="flex justify-center items-center relative">
       <div
         style={{
           backgroundImage: 'url("/fondo_verCC.jpg")',
@@ -88,12 +88,13 @@ function idClub() {
           left: 0,
           right: 0,
           bottom: 0,
-          opacity: 0.7,
-          zIndex: -1,
+          opacity: 0.7, // Opacidad sobre la imagen
+          zIndex: -1, // Para que la imagen esté detrás del contenido
+          backgroundAttachment: "fixed", // Fijar la imagen de fondo
         }}
       ></div>
       <form
-        className="bg-[#2d6a4f] p-10 md:mt-5 2xl:w-1/4 md:w-1/3 sm:w-3/4 w-full rounded-2xl shadow-lg transform transition-all duration-500 ease-in-out hover:scale-105"
+        className="bg-[#2d6a4f] p-10 mt-20 2xl:w-1/4 md:w-1/3 sm:w-3/4 w-full rounded-2xl shadow-lg transform transition-all duration-500 ease-in-out hover:scale-105 mb-16"
         onSubmit={onSubmit}
       >
         <h1 className="flex items-center mb-8 text-2xl font-bold text-white animate__animated animate__fadeIn animate__delay-1s">

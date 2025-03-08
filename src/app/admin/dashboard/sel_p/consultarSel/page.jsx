@@ -1,24 +1,35 @@
 import AthleteCard from "@/components/AthleteCard";
 import prisma from "@/libs/prisma"; // Asegúrate de que aquí importas correctamente 'prisma'
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-
 async function getDeportistas() {
-  const session = await getServerSession(authOptions);
-  const idActual = session?.user?.id;
-
-  // Cambié 'Club' por 'club' para que coincida con el modelo en minúsculas
   const deportistas = await prisma.deportista.findMany({
     where: {
-      id_club: idActual, // Filtramos por el ID del club
+      // Filtramos a los deportistas que tienen al menos una entrada en la tabla SeleccionCombate
+      seleccion_poomsae: {
+        some: {
+          id_deportista: {
+            // Comparamos el id_deportista con el numero_identificacion
+            equals: prisma.deportista.numero_identificacion,
+          },
+        },
+      },
+    },
+    include: {
+      // Incluir los datos de SeleccionCombate para cada deportista
+      seleccion_poomsae: {
+        select: {
+          modalidad: true, // Seleccionamos el campo 'categoria'
+          mayor_logro: true,
+        },
+      },
     },
   });
+
   return deportistas;
 }
 
 export const dynamic = "force-dynamic";
 
-async function VerDeportista() {
+async function ConsultarSelP() {
   const deportistas = await getDeportistas();
   return (
     <section className="container my-30 mx-auto">
@@ -41,7 +52,9 @@ async function VerDeportista() {
           <AthleteCard
             key={deportista.id}
             deportista={deportista}
-            ruta={"/clubes/dashboard/ver_d"}
+            ruta={"/admin/dashboard/sel_p/consultarSel"}
+            categoria={deportista.seleccion_poomsae[0]?.modalidad}
+            mayorLogro={deportista.seleccion_poomsae[0]?.mayor_logro}
           />
         ))}
       </div>
@@ -49,4 +62,4 @@ async function VerDeportista() {
   );
 }
 
-export default VerDeportista;
+export default ConsultarSelP;

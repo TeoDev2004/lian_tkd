@@ -3,14 +3,13 @@ import prisma from "@/libs/prisma"; // Asegúrate de que aquí importas correcta
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-async function getDeportistas() {
+async function getDeportistas(parametros) {
   const session = await getServerSession(authOptions);
-  const idActual = session?.user?.id;
 
   // Cambié 'Club' por 'club' para que coincida con el modelo en minúsculas
   const deportistas = await prisma.deportista.findMany({
     where: {
-      id_club: idActual, // Filtramos por el ID del club
+      id_club: parametros, // Filtramos por el ID del club
     },
   });
   return deportistas;
@@ -18,8 +17,10 @@ async function getDeportistas() {
 
 export const dynamic = "force-dynamic";
 
-async function VerDeportista() {
-  const deportistas = await getDeportistas();
+async function verDeportistasIdPage(context) {
+  const { params } = await context;
+  const paramsId = Number(params.id);
+  const deportistas = await getDeportistas(paramsId);
   return (
     <section className="container my-30 mx-auto">
       <div
@@ -41,7 +42,7 @@ async function VerDeportista() {
           <AthleteCard
             key={deportista.id}
             deportista={deportista}
-            ruta={"/clubes/dashboard/ver_d"}
+            ruta={"/admin/dashboard/ver_d/deportistaId"}
           />
         ))}
       </div>
@@ -49,4 +50,4 @@ async function VerDeportista() {
   );
 }
 
-export default VerDeportista;
+export default verDeportistasIdPage;

@@ -1,11 +1,11 @@
 "use client";
 import { FaFistRaised } from "react-icons/fa";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
+import { useRouter, useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-function RegistarDeportista() {
+function idClub() {
   const router = useRouter();
+  const { id } = useParams();
   const [nombre, setNombre] = useState("");
   const [apellidos, setApellidos] = useState("");
   const [tipo_identificacion, setTipo_identificacion] = useState("");
@@ -32,11 +32,15 @@ function RegistarDeportista() {
   const [rol_club, setRol_club] = useState("");
   const [error, setError] = useState(""); // Estado para mostrar el error
 
-  const { data: session } = useSession();
-  const idClubFromSession = session?.user?.id || null;
   const fechaNacimientoDate = new Date(fecha_nacimiento);
   const estratoInt = Number(estrato);
   const fechaExamenDate = new Date(fecha_ultimo_examen);
+
+  // Función para formatear la fecha en formato yyyy-MM-dd
+  const formatDate = (date) => {
+    const d = new Date(date);
+    return d.toISOString().split("T")[0]; // Extrae la parte de la fecha
+  };
 
   const isFormValid = () => {
     return (
@@ -61,9 +65,43 @@ function RegistarDeportista() {
       ocupacion &&
       fecha_ultimo_examen &&
       competidor &&
+      modalidad_competencia &&
       rol_club
     );
   };
+
+  useEffect(() => {
+    if (id) {
+      fetch(`/api/deportista/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setNombre(data.nombre);
+          setApellidos(data.apellidos);
+          setTipo_identificacion(data.tipo_identificacion);
+          setNumero_identificacion(data.numero_identificacion);
+          setGrado_cinturon(data.grado_cinturon);
+          setGenero(data.genero);
+          setFecha_nacimiento(formatDate(data.fecha_nacimiento)); // Convierte la fecha al formato correcto
+          setLugar_nacimiento(data.lugar_nacimiento);
+          setRh(data.rh);
+          setEps(data.eps);
+          setDireccion(data.direccion);
+          setMunicipio(data.municipio);
+          setBarrio(data.barrio);
+          setEstrato(data.estrato);
+          setNumero_celular(data.numero_celular);
+          setCorreo_electronico(data.correo_electronico);
+          setDiscapacidad(data.discapacidad);
+          setTipo_formacion(data.tipo_formacion);
+          setProfesion(data.profesion);
+          setOcupacion(data.ocupacion);
+          setFecha_ultimo_examen(formatDate(data.fecha_ultimo_examen)); // Convierte la fecha del examen al formato correcto
+          setCompetidor(data.competidor);
+          setModalidad_competencia(data.modalidad_competencia);
+          setRol_club(data.rol_club);
+        });
+    }
+  }, [id]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -74,37 +112,8 @@ function RegistarDeportista() {
     }
 
     setError(""); // Limpiar el mensaje de error si todo está bien
-
-    console.log({
-      nombre,
-      apellidos,
-      tipo_identificacion,
-      numero_identificacion,
-      grado_cinturon,
-      genero,
-      fecha_nacimiento: fechaNacimientoDate,
-      lugar_nacimiento,
-      rh,
-      eps,
-      direccion,
-      municipio,
-      barrio,
-      estrato: estratoInt,
-      numero_celular,
-      correo_electronico,
-      discapacidad,
-      tipo_formacion,
-      profesion,
-      ocupacion,
-      fecha_ultimo_examen: fechaExamenDate,
-      competidor,
-      modalidad_competencia,
-      rol_club,
-      id_club: idClubFromSession,
-    });
-
-    const res = await fetch("/api/deportista", {
-      method: "POST",
+    const res = await fetch(`/api/deportista/${id}`, {
+      method: "PUT",
       body: JSON.stringify({
         nombre,
         apellidos,
@@ -129,8 +138,6 @@ function RegistarDeportista() {
         fecha_ultimo_examen: fechaExamenDate,
         competidor,
         modalidad_competencia,
-        rol_club,
-        id_club: idClubFromSession,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -138,21 +145,16 @@ function RegistarDeportista() {
     });
     const data = await res.json();
 
-    if (res.status === 400) {
-      setError(data.error);
-      return;
-    }
-
     // Redirigir al inicio si el registro fue exitoso
-    router.push("/clubes/dashboard");
+    router.refresh();
+    router.push("/clubes/dashboard/ver_d");
   };
 
   return (
     <div className="flex justify-center items-center relative">
-      {/* Imagen de fondo fija */}
       <div
         style={{
-          backgroundImage: 'url("/registar_clubFondo.jpg")',
+          backgroundImage: 'url("/fondo_verCC.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "center",
           position: "absolute",
@@ -167,12 +169,12 @@ function RegistarDeportista() {
       ></div>
 
       <form
-        className="bg-[#313131] p-10 2xl:w-1/4 md:w-1/2 rounded-2xl mt-28 mb-16"
+        className="bg-[#2d6a4f] p-10 md:mt-20 2xl:w-1/4 md:w-1/3 sm:w-3/4 w-full rounded-2xl shadow-lg transform transition-all duration-500 ease-in-out hover:scale-105 mb-16"
         onSubmit={onSubmit}
       >
-        <h1 className="flex items-center mb-8 text-2xl font-bold text-white">
+        <h1 className="flex items-center mb-8 text-2xl font-bold text-white animate__animated animate__fadeIn animate__delay-1s">
           <FaFistRaised className="text-white mr-4" />
-          REGISTRA UN NUEVO DEPORTISTA
+          ACTUALIZA UN DEPORTISTA
         </h1>
 
         {/* Mensaje de error */}
@@ -513,7 +515,6 @@ function RegistarDeportista() {
           </option>
           <option value="Combate">Combate</option>
           <option value="Poomsaes">Poomsaes</option>
-          <option value="Combate y Poomsaes">Combate y Poomsaes</option>
         </select>
 
         <label htmlFor="rol_club" className="font-bold text-xl text-white">
@@ -527,16 +528,29 @@ function RegistarDeportista() {
           onChange={(e) => setRol_club(e.target.value)}
           value={rol_club}
         />
-
         <button
-          className="bg-[#007A33] hover:bg-[#005F26] text-white font-bold py-2 px-5 rounded-xl mt-3 hover:cursor-pointer"
+          className="bg-[#4CAF50] hover:bg-[#388E3C] text-white font-bold py-2 px-5 rounded-xl mt-3 hover:cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-105"
           type="submit"
         >
-          Crear
+          Actualizar
+        </button>
+        <button
+          className="bg-[#E57373] hover:bg-[#D32F2F] text-white font-bold py-2 px-4 rounded ml-4 hover:cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-105"
+          type="button"
+          onClick={async () => {
+            const res = await fetch(`/api/deportista/${id}`, {
+              method: "DELETE",
+            });
+            const data = await res.json();
+            router.refresh();
+            router.push("/clubes/dashboard/ver_d");
+          }}
+        >
+          Eliminar
         </button>
       </form>
     </div>
   );
 }
 
-export default RegistarDeportista;
+export default idClub;

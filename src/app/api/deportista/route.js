@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
 
 export async function GET() {
-  const desportistas = await prisma.Deportista.findMany();
+  const desportistas = await prisma.deportista.findMany();
   return NextResponse.json(desportistas);
 }
 
@@ -35,8 +35,8 @@ export async function POST(req) {
     id_club,
   } = await req.json();
 
-  // Verificar si el correo electrónico ya existe en la base de datos
-  const existingDeportista = await prisma.Deportista.findUnique({
+  // Verificar si el numero de id ya existe en la base de datos
+  const existingDeportista = await prisma.deportista.findUnique({
     where: {
       numero_identificacion, // Buscar por correo electrónico
     },
@@ -54,7 +54,7 @@ export async function POST(req) {
   }
 
   // Crear el deportista
-  const deportista = await prisma.Deportista.create({
+  const deportista = await prisma.deportista.create({
     data: {
       nombre,
       apellidos,
@@ -80,13 +80,16 @@ export async function POST(req) {
       competidor,
       modalidad_competencia,
       rol_club,
-      Club: {
+
+      club: {
         connect: {
           id: id_club,
         },
       },
     },
   });
+
+  console.log(deportista); // Verifica si deportista tiene datos
 
   return NextResponse.json(deportista);
 }

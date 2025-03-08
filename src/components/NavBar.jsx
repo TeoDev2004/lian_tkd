@@ -5,7 +5,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 async function Navbar() {
   const session = await getServerSession(authOptions);
-  console.log("Sesión actual:", session);
 
   const isAdmin = session?.user?.role === "admin";
   const isClub = session?.user?.role === "club";

@@ -11,14 +11,6 @@ function FormLogin({
   return (
     <div>
       <div className="h-[calc(100vh-7rem)] flex justify-center items-center">
-        <Image
-          src="/logo-liga.png"
-          alt="Taekwondo"
-          width={200}
-          height={200}
-          quality={100}
-          className="absolute hidden md:block md:top-8 md:mb-2 2xl:top-20"
-        />
         <form onSubmit={onSubmit} className="w-1/4">
           {error && (
             <p className="bg-red-500 text-lg text-white p-3 rounded mb-4">
@@ -72,6 +64,14 @@ function FormLogin({
           </button>
         </form>
       </div>
+      <Image
+        src="/logo-liga.png"
+        alt="Taekwondo"
+        width={200}
+        height={200}
+        quality={100}
+        className="absolute bottom-26 left-1/2 transform -translate-x-1/2"
+      />
     </div>
   );
 }

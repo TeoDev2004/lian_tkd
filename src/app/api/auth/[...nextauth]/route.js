@@ -58,19 +58,28 @@ export const authOptions = {
     signIn: "/",
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt", // Usamos JWT para la sesión
+    maxAge: 15 * 60, // 15 minutos de expiración de la sesión (en segundos)
+    updateAge: 10 * 60, // Actualizar la sesión cada 10 minutos
   },
   callbacks: {
     async session({ session, token }) {
-      // Incluir el rol en el objeto session
+      // Incluir el rol y el ID en el objeto de sesión
       if (token.role) {
         session.user.role = token.role;
+        session.user.id = token.id;
       }
       return session;
     },
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role; // Almacena el rol en el token
+        token.id = user.id;
+        token.expires = Date.now() + 1000 * 60 * 15; // Expiración de la sesión en 15 minutos
+      }
+      // Verifica si la sesión ha expirado
+      if (Date.now() > token.expires) {
+        return {}; // Si ha expirado, devuelve un objeto vacío (cierra la sesión)
       }
       return token;
     },

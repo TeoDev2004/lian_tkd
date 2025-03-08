@@ -1,11 +1,11 @@
 "use client";
 import { FaFistRaised } from "react-icons/fa";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
+import { useRouter, useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-function RegistarDeportista() {
+function actualizarSeleccionC() {
   const router = useRouter();
+  const { id } = useParams();
   const [nombre, setNombre] = useState("");
   const [apellidos, setApellidos] = useState("");
   const [tipo_identificacion, setTipo_identificacion] = useState("");
@@ -32,127 +32,50 @@ function RegistarDeportista() {
   const [rol_club, setRol_club] = useState("");
   const [error, setError] = useState(""); // Estado para mostrar el error
 
-  const { data: session } = useSession();
-  const idClubFromSession = session?.user?.id || null;
-  const fechaNacimientoDate = new Date(fecha_nacimiento);
-  const estratoInt = Number(estrato);
-  const fechaExamenDate = new Date(fecha_ultimo_examen);
-
-  const isFormValid = () => {
-    return (
-      nombre &&
-      apellidos &&
-      tipo_identificacion &&
-      numero_identificacion &&
-      grado_cinturon &&
-      genero &&
-      fecha_nacimiento &&
-      lugar_nacimiento &&
-      rh &&
-      eps &&
-      direccion &&
-      municipio &&
-      barrio &&
-      estrato &&
-      numero_celular &&
-      correo_electronico &&
-      tipo_formacion &&
-      profesion &&
-      ocupacion &&
-      fecha_ultimo_examen &&
-      competidor &&
-      rol_club
-    );
+  // Función para formatear la fecha en formato yyyy-MM-dd
+  const formatDate = (date) => {
+    const d = new Date(date);
+    return d.toISOString().split("T")[0]; // Extrae la parte de la fecha
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!isFormValid()) {
-      setError("Por favor, llena todos los campos.");
-      return; // Detener el envío si el formulario no es válido
+  useEffect(() => {
+    if (id) {
+      fetch(`/api/deportista/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setNombre(data.nombre);
+          setApellidos(data.apellidos);
+          setTipo_identificacion(data.tipo_identificacion);
+          setNumero_identificacion(data.numero_identificacion);
+          setGrado_cinturon(data.grado_cinturon);
+          setGenero(data.genero);
+          setFecha_nacimiento(formatDate(data.fecha_nacimiento)); // Convierte la fecha al formato correcto
+          setLugar_nacimiento(data.lugar_nacimiento);
+          setRh(data.rh);
+          setEps(data.eps);
+          setDireccion(data.direccion);
+          setMunicipio(data.municipio);
+          setBarrio(data.barrio);
+          setEstrato(data.estrato);
+          setNumero_celular(data.numero_celular);
+          setCorreo_electronico(data.correo_electronico);
+          setDiscapacidad(data.discapacidad);
+          setTipo_formacion(data.tipo_formacion);
+          setProfesion(data.profesion);
+          setOcupacion(data.ocupacion);
+          setFecha_ultimo_examen(formatDate(data.fecha_ultimo_examen)); // Convierte la fecha del examen al formato correcto
+          setCompetidor(data.competidor);
+          setModalidad_competencia(data.modalidad_competencia);
+          setRol_club(data.rol_club);
+        });
     }
-
-    setError(""); // Limpiar el mensaje de error si todo está bien
-
-    console.log({
-      nombre,
-      apellidos,
-      tipo_identificacion,
-      numero_identificacion,
-      grado_cinturon,
-      genero,
-      fecha_nacimiento: fechaNacimientoDate,
-      lugar_nacimiento,
-      rh,
-      eps,
-      direccion,
-      municipio,
-      barrio,
-      estrato: estratoInt,
-      numero_celular,
-      correo_electronico,
-      discapacidad,
-      tipo_formacion,
-      profesion,
-      ocupacion,
-      fecha_ultimo_examen: fechaExamenDate,
-      competidor,
-      modalidad_competencia,
-      rol_club,
-      id_club: idClubFromSession,
-    });
-
-    const res = await fetch("/api/deportista", {
-      method: "POST",
-      body: JSON.stringify({
-        nombre,
-        apellidos,
-        tipo_identificacion,
-        numero_identificacion,
-        grado_cinturon,
-        genero,
-        fecha_nacimiento: fechaNacimientoDate,
-        lugar_nacimiento,
-        rh,
-        eps,
-        direccion,
-        municipio,
-        barrio,
-        estrato: estratoInt,
-        numero_celular,
-        correo_electronico,
-        discapacidad,
-        tipo_formacion,
-        profesion,
-        ocupacion,
-        fecha_ultimo_examen: fechaExamenDate,
-        competidor,
-        modalidad_competencia,
-        rol_club,
-        id_club: idClubFromSession,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-
-    if (res.status === 400) {
-      setError(data.error);
-      return;
-    }
-
-    // Redirigir al inicio si el registro fue exitoso
-    router.push("/clubes/dashboard");
-  };
+  }, [id]);
 
   return (
     <div className="flex justify-center items-center relative">
-      {/* Imagen de fondo fija */}
       <div
         style={{
-          backgroundImage: 'url("/registar_clubFondo.jpg")',
+          backgroundImage: 'url("/fondo_verCC.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "center",
           position: "absolute",
@@ -166,13 +89,10 @@ function RegistarDeportista() {
         }}
       ></div>
 
-      <form
-        className="bg-[#313131] p-10 2xl:w-1/4 md:w-1/2 rounded-2xl mt-28 mb-16"
-        onSubmit={onSubmit}
-      >
-        <h1 className="flex items-center mb-8 text-2xl font-bold text-white">
+      <form className="bg-[#2d6a4f] p-10 md:mt-20 2xl:w-1/4 md:w-1/3 sm:w-3/4 w-full rounded-2xl shadow-lg transform transition-all duration-500 ease-in-out hover:scale-105 mb-16">
+        <h1 className="flex items-center mb-8 text-2xl font-bold text-white animate__animated animate__fadeIn animate__delay-1s">
           <FaFistRaised className="text-white mr-4" />
-          REGISTRA UN NUEVO DEPORTISTA
+          INFORMACIÓN DEL DEPORTISTA
         </h1>
 
         {/* Mensaje de error */}
@@ -188,6 +108,7 @@ function RegistarDeportista() {
           placeholder="Nombre"
           onChange={(e) => setNombre(e.target.value)}
           value={nombre}
+          disabled
         />
         <label htmlFor="apellidos" className="font-bold text-xl text-white">
           Apellidos del deportista
@@ -199,6 +120,7 @@ function RegistarDeportista() {
           placeholder="Apellidos"
           onChange={(e) => setApellidos(e.target.value)}
           value={apellidos}
+          disabled
         />
         <label
           htmlFor="tipo_identificacion"
@@ -211,6 +133,7 @@ function RegistarDeportista() {
           className="border border-slate-500 rounded-2xl p-2 mb-5 w-full text-black text-xl"
           onChange={(e) => setTipo_identificacion(e.target.value)}
           value={tipo_identificacion}
+          disabled
         >
           <option value="" disabled>
             Selecciona un tipo de identificación
@@ -235,6 +158,7 @@ function RegistarDeportista() {
           placeholder="Número de identificación"
           onChange={(e) => setNumero_identificacion(e.target.value)}
           value={numero_identificacion}
+          disabled
         />
         <label
           htmlFor="grado_cinturon"
@@ -247,6 +171,7 @@ function RegistarDeportista() {
           className="border border-slate-500 rounded-2xl p-2 mb-5 w-full text-black text-xl"
           onChange={(e) => setGrado_cinturon(e.target.value)}
           value={grado_cinturon}
+          disabled
         >
           <option value="" disabled>
             Selecciona un Grado
@@ -274,6 +199,7 @@ function RegistarDeportista() {
           className="border border-slate-500 rounded-2xl p-2 mb-5 w-full text-black text-xl"
           onChange={(e) => setGenero(e.target.value)}
           value={genero}
+          disabled
         >
           <option value="" disabled>
             Selecciona una Opcion
@@ -294,7 +220,7 @@ function RegistarDeportista() {
           className="border border-slate-500 rounded-2xl p-2 mb-5 w-full text-white text-xl"
           onChange={(e) => setFecha_nacimiento(e.target.value)}
           value={fecha_nacimiento}
-          max={new Date().toISOString().split("T")[0]} // Para restringir la fecha a no ser mayor que la actual
+          disabled
         />
 
         <label
@@ -310,6 +236,7 @@ function RegistarDeportista() {
           className="border border-slate-500 rounded-2xl p-2 mb-5 w-full text-white text-xl"
           onChange={(e) => setLugar_nacimiento(e.target.value)}
           value={lugar_nacimiento}
+          disabled
         />
 
         <label htmlFor="rh" className="font-bold text-xl text-white">
@@ -322,6 +249,7 @@ function RegistarDeportista() {
           placeholder="RH"
           onChange={(e) => setRh(e.target.value)}
           value={rh}
+          disabled
         />
 
         <label htmlFor="eps" className="font-bold text-xl text-white">
@@ -334,6 +262,7 @@ function RegistarDeportista() {
           placeholder="EPS"
           onChange={(e) => setEps(e.target.value)}
           value={eps}
+          disabled
         />
 
         <label htmlFor="direccion" className="font-bold text-xl text-white">
@@ -346,6 +275,7 @@ function RegistarDeportista() {
           placeholder="Dirección"
           onChange={(e) => setDireccion(e.target.value)}
           value={direccion}
+          disabled
         />
 
         <label htmlFor="municipio" className="font-bold text-xl text-white">
@@ -358,6 +288,7 @@ function RegistarDeportista() {
           placeholder="Municipio"
           onChange={(e) => setMunicipio(e.target.value)}
           value={municipio}
+          disabled
         />
 
         <label htmlFor="barrio" className="font-bold text-xl text-white">
@@ -370,6 +301,7 @@ function RegistarDeportista() {
           placeholder="Barrio"
           onChange={(e) => setBarrio(e.target.value)}
           value={barrio}
+          disabled
         />
 
         <label htmlFor="estrato" className="font-bold text-xl text-white">
@@ -382,6 +314,7 @@ function RegistarDeportista() {
           placeholder="Estrato"
           onChange={(e) => setEstrato(e.target.value)}
           value={estrato}
+          disabled
         />
 
         <label
@@ -397,6 +330,7 @@ function RegistarDeportista() {
           placeholder="Número de celular"
           onChange={(e) => setNumero_celular(e.target.value)}
           value={numero_celular}
+          disabled
         />
 
         <label
@@ -412,6 +346,7 @@ function RegistarDeportista() {
           placeholder="Correo electrónico"
           onChange={(e) => setCorreo_electronico(e.target.value)}
           value={correo_electronico}
+          disabled
         />
 
         <label htmlFor="discapacidad" className="font-bold text-xl text-white">
@@ -421,9 +356,9 @@ function RegistarDeportista() {
           type="text"
           id="discapacidad"
           className="border border-slate-500 rounded-2xl p-2 mb-5 w-full text-white text-xl"
-          placeholder="Discapacidad"
           onChange={(e) => setDiscapacidad(e.target.value)}
           value={discapacidad}
+          disabled
         />
 
         <label
@@ -439,6 +374,7 @@ function RegistarDeportista() {
           placeholder="Correo electrónico"
           onChange={(e) => setTipo_formacion(e.target.value)}
           value={tipo_formacion}
+          disabled
         />
 
         <label htmlFor="profesion" className="font-bold text-xl text-white">
@@ -451,6 +387,7 @@ function RegistarDeportista() {
           placeholder="Profesión"
           onChange={(e) => setProfesion(e.target.value)}
           value={profesion}
+          disabled
         />
 
         <label htmlFor="ocupacion" className="font-bold text-xl text-white">
@@ -463,6 +400,7 @@ function RegistarDeportista() {
           placeholder="Ocupación"
           onChange={(e) => setOcupacion(e.target.value)}
           value={ocupacion}
+          disabled
         />
 
         <label
@@ -477,7 +415,7 @@ function RegistarDeportista() {
           className="border border-slate-500 rounded-2xl p-2 mb-5 w-full text-white text-xl"
           onChange={(e) => setFecha_ultimo_examen(e.target.value)}
           value={fecha_ultimo_examen}
-          max={new Date().toISOString().split("T")[0]} // Para restringir la fecha a no ser mayor que la actual
+          disabled
         />
 
         <label htmlFor="competidor" className="font-bold text-xl text-white">
@@ -488,6 +426,7 @@ function RegistarDeportista() {
           className="border border-slate-500 rounded-2xl p-2 mb-5 w-full text-black text-xl"
           onChange={(e) => setCompetidor(e.target.value === "true")} // Convertir a booleano
           value={competidor} // Aseguramos que los valores sean "true" o "false"
+          disabled
         >
           <option value="" disabled>
             Selecciona una Opción
@@ -507,13 +446,13 @@ function RegistarDeportista() {
           className="border border-slate-500 rounded-2xl p-2 mb-5 w-full text-black text-xl"
           onChange={(e) => setModalidad_competencia(e.target.value)}
           value={modalidad_competencia}
+          disabled
         >
           <option value="" disabled>
             Selecciona una Opción
           </option>
           <option value="Combate">Combate</option>
           <option value="Poomsaes">Poomsaes</option>
-          <option value="Combate y Poomsaes">Combate y Poomsaes</option>
         </select>
 
         <label htmlFor="rol_club" className="font-bold text-xl text-white">
@@ -526,17 +465,11 @@ function RegistarDeportista() {
           placeholder="Rol en el club"
           onChange={(e) => setRol_club(e.target.value)}
           value={rol_club}
+          disabled
         />
-
-        <button
-          className="bg-[#007A33] hover:bg-[#005F26] text-white font-bold py-2 px-5 rounded-xl mt-3 hover:cursor-pointer"
-          type="submit"
-        >
-          Crear
-        </button>
       </form>
     </div>
   );
 }
 
-export default RegistarDeportista;
+export default actualizarSeleccionC;

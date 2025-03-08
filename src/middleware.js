@@ -8,7 +8,7 @@ export async function middleware(req) {
   // Si no hay token (usuario no está autenticado)
   if (!token) {
     // Redirigir al login si no está autenticado
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
   // Verifica las rutas específicas

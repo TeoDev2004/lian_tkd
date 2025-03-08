@@ -65,7 +65,7 @@ function RegistrarClub() {
   };
 
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="flex justify-center items-center relative">
       <div
         style={{
           backgroundImage: 'url("/registar_clubFondo.jpg")', // Imagen de fondo
@@ -78,10 +78,11 @@ function RegistrarClub() {
           bottom: 0,
           opacity: 0.7, // Opacidad sobre la imagen
           zIndex: -1, // Para que la imagen esté detrás del contenido
+          backgroundAttachment: "fixed",
         }}
       ></div>
       <form
-        className="bg-[#313131] p-10 2xl:w-1/4 md:w-1/2 rounded-2xl"
+        className="bg-[#313131] p-10 2xl:w-1/4 md:w-1/2 rounded-2xl mt-20 mb-14"
         onSubmit={onSubmit}
       >
         <h1 className="flex items-center mb-8 text-2xl font-bold text-white">

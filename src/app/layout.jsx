@@ -1,5 +1,6 @@
 import "./globals.css";
 import Navbar from "@/components/NavBar";
+import { SessionProvider } from "@/components/SessionProvider";
 
 export const metadata = {
   title: "BASE DE DATOS LIANTKD",
@@ -10,8 +11,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <body>
-        <Navbar />
-        {children}
+        <SessionProvider>
+          <Navbar />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );

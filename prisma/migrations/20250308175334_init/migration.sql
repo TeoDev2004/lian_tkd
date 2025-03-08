@@ -58,6 +58,7 @@ CREATE TABLE "Admin" (
 CREATE TABLE "SeleccionCombate" (
     "id" SERIAL NOT NULL,
     "mayor_logro" TEXT NOT NULL,
+    "categoria" INTEGER NOT NULL,
     "id_deportista" TEXT NOT NULL,
 
     CONSTRAINT "SeleccionCombate_pkey" PRIMARY KEY ("id")
@@ -67,6 +68,7 @@ CREATE TABLE "SeleccionCombate" (
 CREATE TABLE "SeleccionPoomsae" (
     "id" SERIAL NOT NULL,
     "mayor_logro" TEXT NOT NULL,
+    "modalidad" TEXT NOT NULL,
     "id_deportista" TEXT NOT NULL,
 
     CONSTRAINT "SeleccionPoomsae_pkey" PRIMARY KEY ("id")
@@ -83,6 +85,12 @@ CREATE UNIQUE INDEX "Deportista_numero_identificacion_key" ON "Deportista"("nume
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Admin_correo_admin_key" ON "Admin"("correo_admin");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "SeleccionCombate_id_deportista_key" ON "SeleccionCombate"("id_deportista");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "SeleccionPoomsae_id_deportista_key" ON "SeleccionPoomsae"("id_deportista");
 
 -- AddForeignKey
 ALTER TABLE "Deportista" ADD CONSTRAINT "Deportista_id_club_fkey" FOREIGN KEY ("id_club") REFERENCES "Club"("id") ON DELETE CASCADE ON UPDATE CASCADE;

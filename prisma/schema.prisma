@@ -67,13 +67,15 @@ model Admin {
 model SeleccionCombate{
   id          Int    @id @default(autoincrement())
   mayor_logro String
-  id_deportista String
+  categoria Int
+  id_deportista String @unique
   deportista Deportista @relation(fields: [id_deportista], references: [numero_identificacion], onDelete: Cascade)
 }
 
 model SeleccionPoomsae{
   id          Int    @id @default(autoincrement())
   mayor_logro String
-  id_deportista String
+  modalidad String
+  id_deportista String @unique
   deportista Deportista @relation(fields: [id_deportista], references: [numero_identificacion], onDelete: Cascade)
 }
