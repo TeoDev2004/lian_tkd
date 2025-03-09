@@ -12,6 +12,9 @@ async function getDeportistas() {
     where: {
       id_club: idActual, // Filtramos por el ID del club
     },
+    orderBy: {
+      nombre: "asc", // 'asc' para orden ascendente (alfabéticamente)
+    },
   });
   return deportistas;
 }
@@ -21,10 +24,13 @@ export const dynamic = "force-dynamic";
 async function VerDeportista() {
   const deportistas = await getDeportistas();
   return (
-    <section className="container my-30 mx-auto">
+    <div
+      className="flex justify-center items-center relative"
+      style={{ minHeight: "100vh" }}
+    >
       <div
         style={{
-          backgroundImage: 'url("/fondo_verCC.jpg")', // Imagen de fondo
+          backgroundImage: 'url("/fondo_verCC.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "center",
           position: "absolute",
@@ -34,9 +40,10 @@ async function VerDeportista() {
           bottom: 0,
           opacity: 0.7, // Opacidad sobre la imagen
           zIndex: -1, // Para que la imagen esté detrás del contenido
+          backgroundAttachment: "fixed", // Fijar la imagen de fondo
         }}
       ></div>
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-6 mt-36 sm:mt-20 mb-16">
         {deportistas.map((deportista) => (
           <AthleteCard
             key={deportista.id}
@@ -45,7 +52,7 @@ async function VerDeportista() {
           />
         ))}
       </div>
-    </section>
+    </div>
   );
 }
 

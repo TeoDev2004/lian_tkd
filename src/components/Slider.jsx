@@ -14,7 +14,7 @@ export default function QuotesGallery({ quotes }) {
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent"></div>
 
           {/* Cita */}
-          <div className="absolute left-10 bottom-1/4 opacity-0 translate-x-10 transition-all duration-700 ease-in-out group-hover:opacity-100 group-hover:translate-x-0">
+          <div className="absolute left-10 bottom-1/4 opacity-100 md:opacity-0 translate-x-10 transition-all duration-700 ease-in-out group-hover:opacity-100 group-hover:translate-x-0">
             <p className="text-white text-2xl italic font-semibold">
               {quote.text}
               <span className="block text-lg font-bold mt-2 text-gray-300">

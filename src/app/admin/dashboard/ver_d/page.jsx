@@ -3,7 +3,11 @@ import prisma from "@/libs/prisma"; // Asegúrate de que aquí importas correcta
 
 async function getClubes() {
   // Cambié 'Club' por 'club' para que coincida con el modelo en minúsculas
-  const clubs = await prisma.club.findMany();
+  const clubs = await prisma.club.findMany({
+    orderBy: {
+      nombre_club: "asc", // 'asc' para orden ascendente (alfabéticamente)
+    },
+  });
   return clubs;
 }
 
@@ -12,10 +16,13 @@ export const dynamic = "force-dynamic";
 async function VerDeportistas() {
   const clubs = await getClubes();
   return (
-    <section className="container my-30 mx-auto">
+    <div
+      className="flex justify-center items-center relative"
+      style={{ minHeight: "100vh" }}
+    >
       <div
         style={{
-          backgroundImage: 'url("/fondo_verCC.jpg")', // Imagen de fondo
+          backgroundImage: 'url("/fondo_verCC.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "center",
           position: "absolute",
@@ -25,9 +32,10 @@ async function VerDeportistas() {
           bottom: 0,
           opacity: 0.7, // Opacidad sobre la imagen
           zIndex: -1, // Para que la imagen esté detrás del contenido
+          backgroundAttachment: "fixed", // Fijar la imagen de fondo
         }}
       ></div>
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-6 mt-36 sm:mt-20 mb-16">
         {clubs.map((club) => (
           <ClubCard
             key={club.id}
@@ -36,7 +44,7 @@ async function VerDeportistas() {
           />
         ))}
       </div>
-    </section>
+    </div>
   );
 }
 
