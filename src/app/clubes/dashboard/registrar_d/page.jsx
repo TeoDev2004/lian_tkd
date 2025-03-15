@@ -60,7 +60,6 @@ function RegistarDeportista() {
       profesion &&
       ocupacion &&
       fecha_ultimo_examen &&
-      competidor &&
       rol_club
     );
   };
@@ -500,7 +499,7 @@ function RegistarDeportista() {
           htmlFor="modalidad_competencia"
           className="font-bold text-xl text-white"
         >
-          Modalidad de competencia
+          Si es competidor, seleccione modalidad de competencia
         </label>
         <select
           id="modalidad_competencia"

@@ -1,7 +1,10 @@
+// pages/clubes/dashboard/ver_d/[id].js (o donde estés renderizando los deportistas)
+
 import AthleteCard from "@/components/AthleteCard";
 import prisma from "@/libs/prisma"; // Asegúrate de que aquí importas correctamente 'prisma'
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import DownloadButton from "@/components/DownloadButton"; // Importar el nuevo componente
 
 async function getDeportistas(parametros) {
   const session = await getServerSession(authOptions);
@@ -24,9 +27,10 @@ async function verDeportistasIdPage(context) {
   const { params } = await context;
   const paramsId = Number(params.id);
   const deportistas = await getDeportistas(paramsId);
+
   return (
     <div
-      className="flex justify-center items-center relative "
+      className="flex justify-center items-center relative"
       style={{ minHeight: "100vh" }}
     >
       <div
@@ -52,6 +56,10 @@ async function verDeportistasIdPage(context) {
             ruta={"/admin/dashboard/ver_d/deportistaId"}
           />
         ))}
+      </div>
+      <div className="mt-auto mb-8 text-center">
+        {/* Botón para descargar los deportistas en Excel */}
+        <DownloadButton clubId={paramsId} />
       </div>
     </div>
   );
