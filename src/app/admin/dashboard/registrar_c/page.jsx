@@ -119,7 +119,7 @@ function RegistrarClub() {
           htmlFor="nombre_presidente"
           className="font-bold text-xl text-white"
         >
-          Nombre del Presidente del Club
+          Nombre del Entrenador del Club
         </label>
         <input
           type="text"
@@ -130,7 +130,7 @@ function RegistrarClub() {
           value={nombre_presidente}
         />
         <label htmlFor="id_presidente" className="font-bold text-xl text-white">
-          ID del Presidente del Club
+          ID del Entrenador del Club
         </label>
         <input
           type="number"
@@ -144,7 +144,7 @@ function RegistrarClub() {
           htmlFor="telefono_presidente"
           className="font-bold text-xl text-white"
         >
-          Teléfono del Presidente del Club
+          Teléfono del Entrenador del Club
         </label>
         <input
           type="text"

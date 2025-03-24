@@ -19,7 +19,7 @@ function AboutUs() {
         <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-8 lg:gap-10 my-6 md:my-8 lg:my-12">
           <div className="w-full md:w-1/3">
             <Image
-              src="/Beneficios-del-taekwondo.jpg"
+              src="/olimpicos.jpg"
               alt="imagen de tkd"
               width={350}
               height={350}

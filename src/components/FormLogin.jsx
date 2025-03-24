@@ -70,7 +70,7 @@ function FormLogin({
         width={200}
         height={200}
         quality={100}
-        className="absolute bottom-26 left-1/2 transform -translate-x-1/2 hidden md:block"
+        className="absolute bottom-26 left-1/2 transform -translate-x-1/2 hidden 2xl:block"
       />
     </div>
   );

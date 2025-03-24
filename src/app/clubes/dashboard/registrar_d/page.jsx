@@ -311,17 +311,27 @@ function RegistarDeportista() {
           value={lugar_nacimiento}
         />
 
-        <label htmlFor="rh" className="font-bold text-xl text-white">
+        <label htmlFor="RH" className="font-bold text-xl text-white">
           RH
         </label>
-        <input
-          type="text"
-          id="rh"
-          className="border border-slate-500 rounded-2xl p-2 mb-5 w-full text-white text-xl"
-          placeholder="RH"
+        <select
+          id="RH"
+          className="border border-slate-500 rounded-2xl p-2 mb-5 w-full text-black text-xl"
           onChange={(e) => setRh(e.target.value)}
           value={rh}
-        />
+        >
+          <option value="" disabled>
+            Selecciona una Opcion
+          </option>
+          <option value="A+">A+</option>
+          <option value="A-">A-</option>
+          <option value="B+">A+</option>
+          <option value="B-">A-</option>
+          <option value="AB+">A+</option>
+          <option value="AB-">A-</option>
+          <option value="O+">A+</option>
+          <option value="O-">A-</option>
+        </select>
 
         <label htmlFor="eps" className="font-bold text-xl text-white">
           EPS

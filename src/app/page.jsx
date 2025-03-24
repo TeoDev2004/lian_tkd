@@ -14,8 +14,8 @@ export default function Home() {
             Contactanos
           </h1>
           <div className="text-base sm:text-lg">
-            <p>Email: taekwondoantioquia@gmail.com</p>
-            <p>telefono: 4645522</p>
+            <p>Email: liantkd@taekwondoantioquia.com</p>
+            <p>Teléfono: 3242117398</p>
           </div>
         </div>
         <div className="md:w-1/3 text-center">
