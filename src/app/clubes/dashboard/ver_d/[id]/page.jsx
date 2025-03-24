@@ -314,17 +314,27 @@ function idClub() {
           value={lugar_nacimiento}
         />
 
-        <label htmlFor="rh" className="font-bold text-xl text-white">
+        <label htmlFor="RH" className="font-bold text-xl text-white">
           RH
         </label>
-        <input
-          type="text"
-          id="rh"
-          className="border border-slate-500 rounded-2xl p-2 mb-5 w-full text-white text-xl"
-          placeholder="RH"
+        <select
+          id="RH"
+          className="border border-slate-500 rounded-2xl p-2 mb-5 w-full text-black text-xl"
           onChange={(e) => setRh(e.target.value)}
           value={rh}
-        />
+        >
+          <option value="" disabled>
+            Selecciona una Opcion
+          </option>
+          <option value="A+">A+</option>
+          <option value="A-">A-</option>
+          <option value="B+">B+</option>
+          <option value="B-">B-</option>
+          <option value="AB+">AB+</option>
+          <option value="AB-">AB-</option>
+          <option value="O+">O+</option>
+          <option value="O-">O-</option>
+        </select>
 
         <label htmlFor="eps" className="font-bold text-xl text-white">
           EPS

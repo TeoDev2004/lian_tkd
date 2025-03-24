@@ -131,7 +131,7 @@ function idClub() {
           htmlFor="nombre_presidente"
           className="font-bold text-xl text-white"
         >
-          Nombre del Presidente del Club
+          Nombre del Entrenador del Club
         </label>
         <input
           type="text"
@@ -142,7 +142,7 @@ function idClub() {
           value={nombre_presidente}
         />
         <label htmlFor="id_presidente" className="font-bold text-xl text-white">
-          ID del Presidente del Club
+          ID del Entrenador del Club
         </label>
         <input
           type="number"
@@ -156,7 +156,7 @@ function idClub() {
           htmlFor="telefono_presidente"
           className="font-bold text-xl text-white"
         >
-          Teléfono del Presidente del Club
+          Teléfono del Entrenador del Club
         </label>
         <input
           type="text"

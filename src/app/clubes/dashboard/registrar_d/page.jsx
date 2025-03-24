@@ -325,12 +325,12 @@ function RegistarDeportista() {
           </option>
           <option value="A+">A+</option>
           <option value="A-">A-</option>
-          <option value="B+">A+</option>
-          <option value="B-">A-</option>
-          <option value="AB+">A+</option>
-          <option value="AB-">A-</option>
-          <option value="O+">A+</option>
-          <option value="O-">A-</option>
+          <option value="B+">B+</option>
+          <option value="B-">B-</option>
+          <option value="AB+">AB+</option>
+          <option value="AB-">AB-</option>
+          <option value="O+">O+</option>
+          <option value="O-">O-</option>
         </select>
 
         <label htmlFor="eps" className="font-bold text-xl text-white">
